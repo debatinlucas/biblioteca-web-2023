@@ -11,6 +11,16 @@ class Usuario(UsuarioBase):
     id: int
     class Config:
         orm_mode = True
+class UsuarioLoginSchema(BaseModel):
+    email: str
+    senha: str
+    class Config:
+        schema_extra = {
+            "example": {
+                "email": "x@x.com",
+                "senha": "pass"
+            }
+        }
 class PaginatedUsuario(BaseModel):
     limit: int
     offset: int

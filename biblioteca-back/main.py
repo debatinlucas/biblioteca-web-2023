@@ -2,10 +2,26 @@ from fastapi import FastAPI, Depends, HTTPException, Body
 from sqlalchemy.orm import Session
 from exceptions import UsuarioException, LivroException, EmprestimoException
 from database import get_db, engine
+from auth.auth_handler import signJWT
 import crud, models, schemas
 
 models.Base.metadata.create_all(bind=engine)
 app = FastAPI()
+
+# login
+@app.post("/api/signup", tags=["usuario"])
+async def create_usuario_signup(usuario: schemas.UsuarioCreate = Body(...), db: Session = Depends(get_db)):
+    try:
+        crud.create_usuario(db, usuario)
+        return signJWT(usuario.email)
+    except UsuarioException as cie:
+        raise HTTPException(**cie.__dict__)
+
+@app.post("/api/login", tags=["usuario"])
+async def user_login(usuario: schemas.UsuarioLoginSchema = Body(...), db: Session = Depends(get_db)):
+    if crud.check_usuario(db, usuario):
+        return signJWT(usuario.email)
+    raise HTTPException(status_code=400, detail="USUARIO_INCORRETO")
 
 # usuário
 @app.get("/api/usuarios/{usuario_id}", response_model=schemas.Usuario)
