@@ -11,7 +11,15 @@
       </div>
     </el-tab-pane>
     <el-tab-pane label="Últimos usuários" name="usuarios">
-      <div>
+      <div v-if="usuarioList.length">
+        <div
+          v-for="usuario in usuarioList"
+          :key="usuario.id"
+          class="mb--xl">
+          <biblioteca-usuario-card :usuario="usuario" />
+        </div>
+      </div>
+      <div v-else>
         <biblioteca-p class="opacity--50 my--md">( Sem usuários )</biblioteca-p>
       </div>
     </el-tab-pane>
@@ -19,15 +27,41 @@
 </template>
 
 <script>
+import { fetchUsuarios } from '@/modules/usuario/usuario.service';
+
+import BibliotecaUsuarioCard from '@/modules/usuario/components/UsuarioCard.vue';
 
 export default {
   name: 'BibliotecaHomeTabs',
   components: {
+    BibliotecaUsuarioCard,
   },
   data() {
     return {
       tabActive: 'emprestimos',
+      usuarioList: [],
+      livroList: [],
+      emprestimoList: [],
     };
+  },
+  mounted() {
+    this.fetch();
+  },
+  methods: {
+    fetch() {
+      if (this.tabActive === 'usuarios') {
+        this.fetchUsuarios();
+      }
+    },
+    fetchUsuarios() {
+      fetchUsuarios()
+        .then(({ data }) => {
+          this.usuarioList = data.data;
+        })
+        .catch(() => {
+          this.usuarioList = [];
+        });
+    },
   },
 };
 </script>

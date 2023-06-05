@@ -1,5 +1,7 @@
 import authRoutes from '@/modules/auth/auth.routes';
 import homeRoutes from '@/modules/home/home.routes';
+import usuarioRoutes from '@/modules/usuario/usuario.routes';
+import gerenciarRoutes from '@/modules/gerenciar/gerenciar.routes';
 import errorRoutes from '@/modules/error/error.routes';
 
 const routes = [
@@ -14,5 +16,7 @@ export default [
   ...routes,
   ...homeRoutes,
   ...authRoutes,
+  ...usuarioRoutes,
+  ...gerenciarRoutes,
   ...errorRoutes,
 ];

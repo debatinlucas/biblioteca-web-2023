@@ -8,7 +8,7 @@
         <biblioteca-button>
           Empréstimos
         </biblioteca-button>
-        <biblioteca-button>
+        <biblioteca-button @click="onUsuarios">
           Usuários
         </biblioteca-button>
         <biblioteca-button @click="onLogout">
@@ -22,6 +22,7 @@
 <script>
 import { removeCookie } from '@/helpers/cookies/cookie';
 import { goToLoginPage } from '@/router/route.service';
+import { goToUsuarios } from '@/modules/gerenciar/gerenciar.routes';
 
 export default {
   name: 'BibliotecaTopbar',
@@ -34,6 +35,9 @@ export default {
     onLogout() {
       removeCookie('session_id');
       goToLoginPage();
+    },
+    onUsuarios() {
+      goToUsuarios(this.$router);
     },
   },
 };
