@@ -20,7 +20,7 @@ module.exports = {
       port: 8080,
       proxy: {
         '/api': {
-          target: 'http://localhost:3333',
+          /*target: 'http://localhost:3333',*/ target: 'https://bibliotecaback-1-x0492710.deta.app',
         },
       },
     };
