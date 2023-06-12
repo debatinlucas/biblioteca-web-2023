@@ -2,10 +2,10 @@
   <biblioteca-navbar>
     <template #right>
       <div class="d-flex align-items--center">
-        <biblioteca-button>
+        <biblioteca-button @click="onLivros">
           Livros
         </biblioteca-button>
-        <biblioteca-button>
+        <biblioteca-button @click="onEmprestimos">
           Empréstimos
         </biblioteca-button>
         <biblioteca-button @click="onUsuarios">
@@ -22,7 +22,7 @@
 <script>
 import { removeCookie } from '@/helpers/cookies/cookie';
 import { goToLoginPage } from '@/router/route.service';
-import { goToUsuarios } from '@/modules/gerenciar/gerenciar.routes';
+import { goToLivros, goToEmprestimos, goToUsuarios } from '@/modules/gerenciar/gerenciar.routes';
 
 export default {
   name: 'BibliotecaTopbar',
@@ -35,6 +35,12 @@ export default {
     onLogout() {
       removeCookie('session_id');
       goToLoginPage();
+    },
+    onLivros() {
+      goToLivros(this.$router);
+    },
+    onEmprestimos() {
+      goToEmprestimos(this.$router);
     },
     onUsuarios() {
       goToUsuarios(this.$router);
